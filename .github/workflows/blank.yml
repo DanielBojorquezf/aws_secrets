@@ -29,7 +29,7 @@ jobs:
 
       - name: Show secret values
         run: |
-          cat secret_values.env
+          cat $GITHUB_WORKSPACE/secret_values.txt
 
       - name: Commit secret values file
         run: |
