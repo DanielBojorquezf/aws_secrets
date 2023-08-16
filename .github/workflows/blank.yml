@@ -1,0 +1,31 @@
+name: AWS Secrets Manager to .env Format
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  aws_secrets_manager_to_env:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Get AWS Secrets Manager values
+        id: get_secrets
+        run: |
+          export AWS_SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id centrae_staging --output json | jq -r .SecretString)
+          echo "$AWS_SECRET_VALUE" > aws.env
+
+      - name: Show AWS Secrets Manager values in .env format
+        run: |
+          cat aws.env
