@@ -31,6 +31,12 @@ jobs:
         run: |
           cat $GITHUB_WORKSPACE/secret_values.txt
 
+      - name: Print file path
+        run: echo $GITHUB_WORKSPACE;
+
+      - name: List files in directory
+        run: ls -l $GITHUB_WORKSPACE
+
       - name: Commit secret values file
         run: |
           git config --local user.email "action@github.com"
