@@ -30,3 +30,11 @@ jobs:
       - name: Show secret values
         run: |
           cat secret_values.env
+
+      - name: Commit secret values file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add $GITHUB_WORKSPACE/secret_values.txt
+          git commit -m "Add secret values file"
+          git push
