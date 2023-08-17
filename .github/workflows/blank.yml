@@ -26,8 +26,13 @@ jobs:
           SECRET_NAME="centrae_staging"  # Reemplaza con el nombre de tu secreto
           SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --output json)
           SECRET_STRING=$(echo "$SECRET_JSON" | jq -r '.SecretString')
-          echo "$SECRET_STRING" | awk -F'"' '{ for(i=2;i<NF;i+=4) print $i "=" $(i+2) }' > $GITHUB_WORKSPACE/secret_values.txt
+          FORMATTED_SECRET_STRING=$(echo "$SECRET_STRING" | awk -F'"' '{ for(i=2;i<NF;i+=4) print $i "=" $(i+2) }')
+          echo $FORMATTED_SECRET_STRING
 
-      - name: Show secret JSON
+      - name: Copy dotenv file
         run: |
-          cat $GITHUB_WORKSPACE/secret_values.txt
+          echo "$FORMATTED_SECRET_STRING" > .env
+
+      - name: Print .env
+        run: |
+          cat .env
