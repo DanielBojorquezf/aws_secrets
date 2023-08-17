@@ -26,7 +26,8 @@ jobs:
           SECRET_NAME="centrae_staging"  # Reemplaza con el nombre de tu secreto
           SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --output json)
           SECRET_STRING=$(echo "$SECRET_JSON" | jq -r '.SecretString')
-          echo "$SECRET_STRING" > .env
+          FORMATTED_SECRET=$(echo "$SECRET_STRING" | awk -F'"' '{ for(i=2;i<NF;i+=4) print $i "=" $(i+2) }')
+          echo "$FORMATTED_SECRET" > .env
           cat .env
 
 
