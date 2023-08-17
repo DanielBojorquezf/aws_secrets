@@ -30,4 +30,4 @@ jobs:
 
       - name: Show secret JSON
         run: |
-          cat $GITHUB_WORKSPACE/secret_values.json
+          cat $GITHUB_WORKSPACE/secret_values.txt
