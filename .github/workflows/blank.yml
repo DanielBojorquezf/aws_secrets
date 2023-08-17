@@ -23,7 +23,7 @@ jobs:
       - name: Get AWS Secrets Manager secret value
         id: get_secret
         run: |
-          SECRET_NAME="centrae_staging"  # Reemplaza con el nombre de tu secreto
+          SECRET_NAME="centrae_staging" 
           SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --output json)
           SECRET_STRING=$(echo "$SECRET_JSON" | jq -r '.SecretString')
           FORMATTED_SECRET=$(echo "$SECRET_STRING" | awk -F'"' '{ for(i=2;i<NF;i+=4) print $i "=" $(i+2) }')
