@@ -27,6 +27,7 @@ jobs:
           SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --output json)
           SECRET_STRING=$(echo "$SECRET_JSON" | jq -r '.SecretString')
           FORMATTED_SECRET=$(echo "$SECRET_STRING" | awk -F'"' '{ for(i=2;i<NF;i+=4) print $i "=" $(i+2) }')
+          echo "FORMATTED_SECRET=$FORMATTED_SECRET" >> .env
 
       - name: Copy dotenv file
         run: |
