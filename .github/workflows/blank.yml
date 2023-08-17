@@ -24,9 +24,9 @@ jobs:
         id: get_secret
         run: |
           SECRET_NAME="centrae_staging"  # Reemplaza con el nombre de tu secreto
-          SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --output json | jq -r .SecretString)
-          echo "$SECRET_VALUE" > secret_values.txt
+          SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --output json)
+          echo "$SECRET_JSON" > $GITHUB_WORKSPACE/secret_values.json
 
-      - name: Show secret values
+      - name: Show secret JSON
         run: |
-          cat secret_values.txt
+          cat $GITHUB_WORKSPACE/secret_values.json
